@@ -1,5 +1,8 @@
 package com.example.book.store.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "books")
+//@Table(name = "books-store")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +25,22 @@ public class Book {
     @Column(nullable = false)
     private String author;
 
-    @Column(nullable = false, unique = true)
     private String description;
 
-    @Column(nullable = false)
-    private Genre genre;
+    
+    private Category category;
+    
+    
+    
+    @Min(value = 0, message = "Price should be positive value.")
+    private float price;
+
+    /**
+     * Amount of book available
+     */
+    @Min(value = 0, message = "Total Count should be positive value.")
+    private int totalCount;
+
+    
+
 }

@@ -2,12 +2,17 @@ package com.example.book.store.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.book.store.entity.Book;
+import com.example.book.store.entity.BookDto;
+import com.example.book.store.entity.Category;
 import com.example.book.store.service.BookService;
+
+import io.swagger.annotations.ApiOperation;
 
 import java.util.List;
 
@@ -40,6 +45,12 @@ public class BookController {
 		return new ResponseEntity<>(bookList, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Get Number of books by Id")
+	@GetMapping("/number-of-books/{id}")
+	public int getNumberOfBooksById(@PathVariable Long id) {
+		return bookService.getNumberOfBooksById(id);
+	}
+
 	@PutMapping("/updateBook/{id}")
 	// http://localhost:8080/api/books/1
 	public ResponseEntity<Book> updateBook(@PathVariable("id") Long bookId, @RequestBody Book book) {
@@ -55,11 +66,9 @@ public class BookController {
 		return new ResponseEntity<>("Book was deleted successfully", HttpStatus.OK);
 	}
 
-	@GetMapping("/getBookByGenre/{id}")
-	// http://localhost:8080/api/books/1
-	public ResponseEntity<Book> getBookByGenre(@PathVariable("id") String genre) {
-		Book book = bookService.getBookByGenre(genre);
-		return new ResponseEntity<>(book, HttpStatus.OK);
+	@GetMapping("/getbooksByCategory")
+	public List<Book> getBookByCategoryKeyWord( @RequestParam Category category) {
+		return bookService.getBookByCategoryKeyWord(category);
 	}
 
 }
