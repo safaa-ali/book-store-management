@@ -1,6 +1,5 @@
 package com.example.book.store.service;
 
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,6 @@ public class BookStoreServiceImpl implements BookService {
 
 	@Autowired
 	private BookRepository bookRepository;
-	private ModelMapper modelMapper = new ModelMapper();
 
 	@Override
 	public Book createBook(Book book) {
