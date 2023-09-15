@@ -13,13 +13,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-//@Table(name = "books-store")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
@@ -35,12 +34,7 @@ public class Book {
     @Min(value = 0, message = "Price should be positive value.")
     private float price;
 
-    /**
-     * Amount of book available
-     */
-    @Min(value = 0, message = "Total Count should be positive value.")
-    private int totalCount;
-
+   
     
 
 }
