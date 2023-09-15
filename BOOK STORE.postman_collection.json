@@ -1,0 +1,308 @@
+{
+	"info": {
+		"_postman_id": "acb48e8b-1e10-46e3-a6fd-10abb0b6a471",
+		"name": "BOOK STORE",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23040069"
+	},
+	"item": [
+		{
+			"name": "add new book",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjEiLCJpYXQiOjE2OTQ3OTIzNjQsImV4cCI6MTY5NDg3ODc2NH0.3favfmr3XVFf51LDje6Ca-ATIpMDclqY02Y5r1y0TEI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"title\": \"harry potter cop3 \",\r\n        \"author\": \"Joanne Rowling\",\r\n        \"description\": \"it is a fantasy book and it was represented as movie included 8 chapters\",\r\n        \"category\": 3,\r\n        \"price\": 200.0\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:7090/api/books/create",
+					"host": [
+						"localhost"
+					],
+					"port": "7090",
+					"path": [
+						"api",
+						"books",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all books",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjEiLCJpYXQiOjE2OTQ3OTIzNjQsImV4cCI6MTY5NDg3ODc2NH0.3favfmr3XVFf51LDje6Ca-ATIpMDclqY02Y5r1y0TEI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:7090/api/books/getAllBooks",
+					"host": [
+						"localhost"
+					],
+					"port": "7090",
+					"path": [
+						"api",
+						"books",
+						"getAllBooks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update books",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjEiLCJpYXQiOjE2OTQ3OTIzNjQsImV4cCI6MTY5NDg3ODc2NH0.3favfmr3XVFf51LDje6Ca-ATIpMDclqY02Y5r1y0TEI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\":\"harry botter\",\r\n    \"author\":\"Joanne Rowling\",\r\n    \"description\":\"it is a fantasy book and it was represented as movie included 8 chapters\",\r\n \"category\":2,\r\n    \"price\":100\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:7090/api/books/updateBook/7",
+					"host": [
+						"localhost"
+					],
+					"port": "7090",
+					"path": [
+						"api",
+						"books",
+						"updateBook",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get books by category",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjEiLCJpYXQiOjE2OTQ3OTIzNjQsImV4cCI6MTY5NDg3ODc2NH0.3favfmr3XVFf51LDje6Ca-ATIpMDclqY02Y5r1y0TEI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:7090/api/books/getbooksByCategory?category=TECHNOLOGY",
+					"host": [
+						"localhost"
+					],
+					"port": "7090",
+					"path": [
+						"api",
+						"books",
+						"getbooksByCategory"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "TECHNOLOGY"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete book by id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjEiLCJpYXQiOjE2OTQ3OTIzNjQsImV4cCI6MTY5NDg3ODc2NH0.3favfmr3XVFf51LDje6Ca-ATIpMDclqY02Y5r1y0TEI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:7090/api/books/deleteBook/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7090",
+					"path": [
+						"api",
+						"books",
+						"deleteBook",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get book by id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjk0NzkyNzI5LCJleHAiOjE2OTQ4NzkxMjl9.R00ZXmLOLveZOkUf7oDiUzLhdo-akRTaIKU7ivTWwKQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:7090/api/books/getBookById/2",
+					"host": [
+						"localhost"
+					],
+					"port": "7090",
+					"path": [
+						"api",
+						"books",
+						"getBookById",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "borrow",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjk0NzkyNzI5LCJleHAiOjE2OTQ4NzkxMjl9.R00ZXmLOLveZOkUf7oDiUzLhdo-akRTaIKU7ivTWwKQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:7090/api/books/2/borrow",
+					"host": [
+						"localhost"
+					],
+					"port": "7090",
+					"path": [
+						"api",
+						"books",
+						"2",
+						"borrow"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "signUp",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"admin1\",\r\n    \"email\":\"admin1@gmail.com\",\r\n    \"password\":\"123456\",\r\n    \"role\": [\"admin\"]\r\n\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7090/api/auth/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7090",
+					"path": [
+						"api",
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "loginin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"user\",\r\n    \"password\":\"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7090/api/auth/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7090",
+					"path": [
+						"api",
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
