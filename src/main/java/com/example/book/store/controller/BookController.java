@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.book.store.entity.Book;
 import com.example.book.store.entity.Category;
+import com.example.book.store.exceptions.ProductNotfoundException;
 import com.example.book.store.service.BookService;
 
 import java.time.LocalDate;
@@ -25,7 +26,7 @@ public class BookController {
 	@Autowired
 	private BookService bookService;
 
-// done
+
 	@PostMapping("/create")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Book> createBook(@RequestBody Book book) {
@@ -33,15 +34,29 @@ public class BookController {
 		return new ResponseEntity<>(savedBook, HttpStatus.CREATED);
 	}
 
-// done
+
 	@GetMapping("/getBookById/{id}")
 	@PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
 	public ResponseEntity<Book> getBookById(@PathVariable("id") Long bookId) {
-		Book book = bookService.getBookById(bookId);
-		return new ResponseEntity<>(book, HttpStatus.OK);
+
+		
+		try {
+
+			if (bookService.getBookById(bookId).getId()!= null) {
+
+				Book book =	bookService.getBookById(bookId);
+				return new ResponseEntity<>(book, HttpStatus.OK);
+
+			}
+		} catch (Exception mes) {
+
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+		}
+		return null;
 	}
 
-// done
+
 	@GetMapping("/getAllBooks")
 	@PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
 	public ResponseEntity<List<Book>> getAllBooks() {
@@ -49,7 +64,7 @@ public class BookController {
 		return new ResponseEntity<>(bookList, HttpStatus.OK);
 	}
 
-// done
+
 	@PutMapping("/updateBook/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Book> updateBook(@PathVariable("id") Long bookId, @RequestBody Book book) {
@@ -58,22 +73,57 @@ public class BookController {
 		return new ResponseEntity<>(updatedBook, HttpStatus.OK);
 	}
 
-// done
 	@DeleteMapping("/deleteBook/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<String> deleteBook(@PathVariable("id") Long bookId) {
-		bookService.deleteBook(bookId);
-		return new ResponseEntity<>("Book was deleted successfully", HttpStatus.OK);
+	public ResponseEntity<String> deleteBook(@PathVariable("id") Long id) {
+
+		try {
+
+			if (getBookById(id).getBody().getId() != null) {
+
+				bookService.deleteBook(id);
+				return new ResponseEntity<>("Book was deleted successfully", HttpStatus.OK);
+
+			}
+		} catch (Exception mes) {
+
+			return new ResponseEntity<>("Product not exist with id: " + id, HttpStatus.NOT_FOUND);
+
+		}
+		return null;
+
 	}
 
-// done
+
 	@GetMapping("/getbooksByCategory")
 	@PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
-	public List<Book> getBookByCategoryKeyWord(@RequestParam Category category) {
+	public   List<Book> getBookByCategoryKeyWord(@RequestParam Category category) {
+		
+		
+		try {
+			
+		List<Category> catrgories =	getAllBooks().getBody().stream().map(s->s.getCategory()).collect(Collectors.toList());;
+		
+		
+	if	(catrgories.contains(category)){
 		return bookService.getBookByCategoryKeyWord(category);
+
+		}
+
+
+		} catch (Exception mes) {
+
+			 new ResponseEntity<>("Product not exist with id: " +category , HttpStatus.NOT_FOUND);
+
+		}
+		return null;
+		
+		
+		
+		
 	}
 
-	// done
+
 	@GetMapping("/{id}/borrow")
 	@PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
 	public ResponseEntity<String> borrowBook(@PathVariable Long id) {

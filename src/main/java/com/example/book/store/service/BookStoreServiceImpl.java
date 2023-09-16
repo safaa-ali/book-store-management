@@ -1,23 +1,19 @@
 package com.example.book.store.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.book.store.entity.Book;
 import com.example.book.store.entity.Category;
 import com.example.book.store.entity.dao.BookRepository;
-import com.example.book.store.exceptions.BookNotFoundException;
-import com.example.book.store.exceptions.DuplicateResourceException;
-
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+import com.example.book.store.exceptions.ProductNotfoundException;
 
 @Service
 public class BookStoreServiceImpl implements BookService {
@@ -45,7 +41,10 @@ public class BookStoreServiceImpl implements BookService {
 
 	@Override
 	public Book updateBook(Book book) {
-		Book existingBook = bookRepository.findById(book.getId()).get();
+
+		Book existingBook = bookRepository.findById(book.getId())
+				.orElseThrow(() -> new ProductNotfoundException("Product not exist with id: " + book.getId()));
+
 		existingBook.setTitle(book.getTitle());
 		existingBook.setAuthor(book.getAuthor());
 		existingBook.setDescription(book.getDescription());
@@ -56,13 +55,18 @@ public class BookStoreServiceImpl implements BookService {
 
 	@Override
 	public void deleteBook(Long bookId) {
+
 		bookRepository.deleteById(bookId);
+
 	}
 
 	@Override
 	public List<Book> getBookByCategoryKeyWord(Category category) {
 
 		log.info("Fetch all the books by category .");
+		
+		
+		
 		List<Book> book = bookRepository.findAllBookByCategoryAndKeyword(category.getValue());
 		return book;
 	}
