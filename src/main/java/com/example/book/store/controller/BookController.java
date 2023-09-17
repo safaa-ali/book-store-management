@@ -26,7 +26,6 @@ public class BookController {
 	@Autowired
 	private BookService bookService;
 
-
 	@PostMapping("/create")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Book> createBook(@RequestBody Book book) {
@@ -34,17 +33,15 @@ public class BookController {
 		return new ResponseEntity<>(savedBook, HttpStatus.CREATED);
 	}
 
-
 	@GetMapping("/getBookById/{id}")
 	@PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
 	public ResponseEntity<Book> getBookById(@PathVariable("id") Long bookId) {
 
-		
 		try {
 
-			if (bookService.getBookById(bookId).getId()!= null) {
+			if (bookService.getBookById(bookId).getId() != null) {
 
-				Book book =	bookService.getBookById(bookId);
+				Book book = bookService.getBookById(bookId);
 				return new ResponseEntity<>(book, HttpStatus.OK);
 
 			}
@@ -56,14 +53,12 @@ public class BookController {
 		return null;
 	}
 
-
 	@GetMapping("/getAllBooks")
 	@PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
 	public ResponseEntity<List<Book>> getAllBooks() {
 		List<Book> bookList = bookService.getAllBooks();
 		return new ResponseEntity<>(bookList, HttpStatus.OK);
 	}
-
 
 	@PutMapping("/updateBook/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
@@ -87,62 +82,69 @@ public class BookController {
 			}
 		} catch (Exception mes) {
 
-			return new ResponseEntity<>("Product not exist with id: " + id, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Book doesn't exist with id: " + id, HttpStatus.NOT_FOUND);
 
 		}
 		return null;
 
 	}
-
 
 	@GetMapping("/getbooksByCategory")
 	@PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
-	public   List<Book> getBookByCategoryKeyWord(@RequestParam Category category) {
-		
-		
+	public List<Book> getBookByCategoryKeyWord(@RequestParam Category category) {
+
 		try {
-			
-		List<Category> catrgories =	getAllBooks().getBody().stream().map(s->s.getCategory()).collect(Collectors.toList());;
-		
-		
-	if	(catrgories.contains(category)){
-		return bookService.getBookByCategoryKeyWord(category);
 
-		}
+			List<Category> catrgories = getAllBooks().getBody().stream().map(s -> s.getCategory())
+					.collect(Collectors.toList());
+			;
 
+			if (catrgories.contains(category)) {
+				return bookService.getBookByCategoryKeyWord(category);
+
+			}
 
 		} catch (Exception mes) {
 
-			 new ResponseEntity<>("Product not exist with id: " +category , HttpStatus.NOT_FOUND);
+			new ResponseEntity<>("Book doesn't exist with id: " + category, HttpStatus.NOT_FOUND);
 
 		}
 		return null;
-		
-		
-		
-		
-	}
 
+	}
 
 	@GetMapping("/{id}/borrow")
 	@PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
 	public ResponseEntity<String> borrowBook(@PathVariable Long id) {
+
 		LocalDate localDate = LocalDate.now().plusDays(7);
+		
+		try {
 
-		ResponseEntity<Book> exsitBook = getBookById(id);
+		if (getBookById(id).getBody().getId() != null) {
 
-		String title = exsitBook.getBody().getTitle();
+			ResponseEntity<Book> exsitBook = getBookById(id);
 
-		List<Book> books = getAllBooks().getBody().stream().filter(s -> s.getTitle().equals(title))
-				.collect(Collectors.toList());
+			String title = exsitBook.getBody().getTitle();
 
-		if (books.size() > 2) {
-			return new ResponseEntity<>("you can borrow it at " + localDate, HttpStatus.OK);
+			List<Book> books = getAllBooks().getBody().stream().filter(s -> s.getTitle().equals(title))
+					.collect(Collectors.toList());
+
+			if (books.size() > 2) {
+				return new ResponseEntity<>("you can borrow it at " + localDate, HttpStatus.OK);
+			} else {
+
+				String message = "Unfortunately, we only have two copies, so you cannot borrow at this time so please try in anther time ! ";
+				return new ResponseEntity<>(message.toUpperCase(), HttpStatus.OK);
+			}
+
 		}
+		}catch (Exception mes) {
 
-		String message = "Unfortunately, we only have two copies, so you cannot borrow at this time so please try in anther time ! ";
+			new ResponseEntity<>("Book doesn't exist with id: " + id, HttpStatus.NOT_FOUND);
 
-		return new ResponseEntity<>(message.toUpperCase(), HttpStatus.OK);
+		}
+		return new ResponseEntity<>("Book doesn't exist with id: " + id, HttpStatus.NOT_FOUND);
 
 	}
 
