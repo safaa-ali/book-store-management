@@ -1,13 +1,25 @@
 package com.example.book.store;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import static org.junit.Assert.assertEquals;
 
-@SpringBootTest
-class BookStoreApplicationTests {
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import com.example.book.store.entity.Book;
+import com.example.book.store.entity.Category;
+import com.example.book.store.service.BookService;
+
+@SpringBootTest()
+class BookStoreApplicationTests{
+
+	@Autowired
+	private BookService bookService;
 
 	@Test
-	void contextLoads() {
+	void savedBook() {
+		Book book = new Book(57l, "title", "auther", "discription", Category.ACTION, 100);
+		Book savedBook = bookService.createBook(book);
+		assertEquals(savedBook.getTitle(), "title");
 	}
 
 }
