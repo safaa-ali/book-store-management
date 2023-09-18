@@ -55,15 +55,5 @@ public class SignupRequest {
 		this.role = role;
 	}
 
-//	@JsonCreator
-//	public SignupRequest(@JsonProperty("username") @NotBlank @Size(min = 3, max = 20) String username,
-//			@JsonProperty("email") 	@NotBlank @Size(max = 50) @Email String email,@JsonProperty("role") Set<String> role,
-//			@JsonProperty("password")  @NotBlank @Size(min = 6, max = 40) String password) {
-//		super();
-//		this.username = username;
-//		this.email = email;
-//		this.role = role;
-//		this.password = password;
-//	}
 
 }
