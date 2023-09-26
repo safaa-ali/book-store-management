@@ -15,4 +15,5 @@ public interface BookService {
     Book updateBook(Book book);
     void deleteBook(Long bookId);
     List<Book> getBookByCategoryKeyWord(Category category);
+	Object greet();
 }

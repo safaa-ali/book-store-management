@@ -71,4 +71,10 @@ public class BookStoreServiceImpl implements BookService {
 		return book;
 	}
 
+	@Override
+	public Object greet() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
